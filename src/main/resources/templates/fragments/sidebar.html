@@ -1,0 +1,153 @@
+<div th:fragment="sidebar" class="left-side-bar" xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <div class="brand-logo">
+        <a href="index.html">
+            <img src="vendors/images/deskapp-logo.svg" alt="" class="dark-logo" />
+            <img
+                    src="vendors/images/deskapp-logo-white.svg"
+                    alt=""
+                    class="light-logo"
+            />
+        </a>
+        <div class="close-sidebar" data-toggle="left-sidebar-close">
+            <i class="ion-close-round"></i>
+        </div>
+    </div>
+
+    <div class="menu-block customscroll">
+        <div class="sidebar-menu">
+
+
+            <ul id="accordion-menu">
+                <li class="dropdown"  sec:authorize="hasRole('ADMIN')">
+                    <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-house"></span
+                                ><span class="mtext">Gestion des Immeubles</span>
+                    </a>
+                    <ul class="submenu">
+
+                        <li><a th:href="@{/immobilier/immeuble/admin/list}">Liste des Immeubles</a></li>
+
+
+
+                    </ul>
+                </li>
+                <li class="dropdown"  sec:authorize="hasRole('ADMIN')">
+                    <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-house"></span
+                                ><span class="mtext">Gestions des utilisateur</span>
+                    </a>
+                    <ul class="submenu">
+
+
+                        <li><a th:href="@{/immobilier/utilisateur/add}">Ajout utilisateur</a></li>
+                        <li><a th:href="@{/immobilier/utilisateur/list}">Listes Utilisateur</a></li>
+
+
+                    </ul>
+                </li>
+                <li class="dropdown"  sec:authorize="hasRole('ADMIN')">
+                    <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-house"></span
+                                ><span class="mtext">Gestion Contrat et Paiement</p></span>
+                    </a>
+                    <ul class="submenu">
+
+                        <li ><a th:href="@{/contrats/admin/list}">Suivre les contrats</a></li>
+                        <li ><a th:href="@{/contrats/admin/add}">Ajouter un contrat</a></li>
+                        <li ><a th:href="@{/paiements/contrat}">Paiement</a></li>
+
+                    </ul>
+
+
+                </li>
+                <li class="dropdown"  sec:authorize="hasRole('ADMIN')">
+                    <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-house"></span
+                                ><span class="mtext">Gestion de demandes et Dashboard</span>
+                    </a>
+                    <ul class="submenu">
+                        <li><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+                        <li><a th:href="@{/demandes/admin}">Demandes</a></li>
+
+
+                    </ul>
+                </li>
+                <li class="dropdown" sec:authorize="hasRole('LOCATAIRE')">
+                    <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-textarea-resize"></span
+                                ><span class="mtext">Gestion Des Immeubles</span>
+                    </a>
+                    <ul class="submenu">
+                        <li><a th:href="@{/immobilier/immeuble/locataire/list}">list un immeuble</a></li>
+
+
+
+                       <!-- <li><a th:href="@{/immobilier/unitelocation/list}">Voir Les Unités</a></li>
+                        <li>
+                            <a th:href="@{/demandes/mes-demandes}">Suivre ces reservations</a>
+                        </li>
+                        <li><a th:href="@{/immobilier/immeuble/locataire/list}">Voir les immeubles</a></li>
+                        <li><a th:href="@{/contrats/locataire}">suivre mes contrats</a></li>-->
+
+
+                    </ul>
+
+                </li>
+
+                <li class="dropdown" sec:authorize="hasRole('LOCATAIRE')">
+                    <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-textarea-resize"></span
+                                ><span class="mtext">Gestion des reservation</span>
+                    </a>
+                    <ul class="submenu">
+
+                        <li>
+                            <a th:href="@{/demandes/mes-demandes}">Suivre ces reservations</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown" sec:authorize="hasRole('LOCATAIRE')">
+                    <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-textarea-resize"></span
+                                ><span class="mtext">Gestion des contrats</span>
+                    </a>
+                    <ul class="submenu">
+
+                        <li><a th:href="@{/contrats/locataire/list}">suivre mes contrats</a></li>
+
+                    </ul>
+                </li>
+                <li class="dropdown"  sec:authorize="hasRole('PROPRIETAIRE')">
+                    <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-table"></span
+                                ><span class="mtext">Gestion des immeubles</span>
+                    </a>
+                    <ul class="submenu">
+                        <li><a th:href="@{/immobilier/immeuble/proprietaire/list}">list un immeuble</a></li>
+                        <li><a th:href="@{/immobilier/immeuble/add}">Add des immeubles</a></li>
+
+
+
+                    </ul>
+                </li>
+
+                <li class="dropdown"  sec:authorize="hasRole('PROPRIETAIRE')">
+                    <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-table"></span
+                                ><span class="mtext">Gestion des contrats</span>
+                    </a>
+                    <ul class="submenu">
+                        <li><a th:href="@{/contrats/proprietaire/list}">List des contrats</a></li>
+                        <li><a th:href="@{/contrats/proprietaire/add}">Add des contrats</a></li>
+
+
+                    </ul>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+</div>

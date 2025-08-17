@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Basic Page Info -->
+    <meta charset="utf-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/vendors/images/apple-touch-icon.png}" />
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/vendors/images/favicon-32x32.png}" />
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/vendors/images/favicon-16x16.png}" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/vendors/styles/core.css}" />
+    <link rel="stylesheet" th:href="@{/vendors/styles/icon-font.min.css}" />
+    <link rel="stylesheet" th:href="@{/src/plugins/jquery-steps/jquery.steps.css}" />
+    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/dataTables.bootstrap4.min.css}" />
+    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/responsive.bootstrap4.min.css}" />
+    <link rel="stylesheet" th:href="@{/vendors/styles/style.css}" />
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-GBZ3SGGX85"
+    ></script>
+    <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973766580778258"
+            crossorigin="anonymous"
+    ></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "G-GBZ3SGGX85");
+    </script>
+    <!-- Google Tag Manager -->
+
+    <!-- End Google Tag Manager -->
+</head>
+<body>
+
+
+
+<div th:replace="~{fragments/header :: topbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+
+<div th:switch="${content}">
+    <p th:text="'Valeur de content: ' + ${content}"></p>
+
+    <th:block th:case="'listeU'" th:replace="~{admin/listeUser :: content}"></th:block>
+    <th:block th:case="'inscription'" th:replace="~{admin/inscriptionUser :: content}"></th:block>
+    <p th:case="*">Welcome, guest!</p>
+</div>
+
+
+
+<!--<p th:text="'[content] => ' + ${content}"></p>
+<div th:unless="${content == 'inscription' or content == 'listeU'}">
+<p>Contenu non reconnu.</p>
+</div> -->
+
+
+
+
+
+
+
+
+
+<script th:src="@{/vendors/scripts/core.js}"></script>
+<script th:src="@{/vendors/scripts/script.min.js}"></script>
+<script th:src="@{/vendors/scripts/process.js}"></script>
+<script th:src="@{/vendors/scripts/layout-settings.js}"></script>
+<script th:src="@{/src/plugins/jquery-steps/jquery.steps.js}"></script>
+<script th:src="@{/vendors/scripts/steps-setting.js}"></script>
+
+<!-- DataTables + ApexCharts -->
+<script th:src="@{/src/plugins/apexcharts/apexcharts.min.js}"></script>
+<script th:src="@{/src/plugins/datatables/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/src/plugins/datatables/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/src/plugins/datatables/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/src/plugins/datatables/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/vendors/scripts/dashboard3.js}"></script>
+
+
+
+
+<!-- Google Tag Manager (noscript) -->
+<noscript
+><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
+</body>
+</html>
+

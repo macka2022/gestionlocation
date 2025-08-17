@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/vendors/images/apple-touch-icon.png}" />
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/vendors/images/favicon-32x32.png}" />
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/vendors/images/favicon-16x16.png}" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/vendors/styles/core.css}" />
+    <link rel="stylesheet" th:href="@{/vendors/styles/icon-font.min.css}" />
+    <link rel="stylesheet" th:href="@{/src/plugins/jquery-steps/jquery.steps.css}" />
+    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/dataTables.bootstrap4.min.css}" />
+    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/responsive.bootstrap4.min.css}" />
+    <link rel="stylesheet" th:href="@{/vendors/styles/style.css}" />
+    <meta charset="UTF-8">
+    <title>Gestion des demandes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+
+        body {
+            background-color: #f5f6fa;
+        }
+
+        .card-demande {
+            transition: transform 0.2s ease;
+        }
+
+        .card-demande:hover {
+            transform: scale(1.01);
+        }
+
+        .badge-status {
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .badge-en-attente {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-approuvee {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .badge-refusee {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .card-footer .btn + .btn {
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/header :: topbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="container py-5">
+    <h2 class="mb-4 text-primary">Liste des demandes de location</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" th:if="${not #lists.isEmpty(demandes)}">
+        <div class="col" th:each="demande : ${demandes}">
+            <div class="card shadow-sm card-demande">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${demande.unite.numero}">Nom de l’unité</h5>
+                    <p class="mb-1">
+                        <i class="bi bi-person"></i>
+                        <strong>Locataire :</strong> <span th:text="${demande.locataire.nom}">Nom locataire</span>
+                    </p>
+                    <p class="mb-1">
+                        <i class="bi bi-calendar"></i>
+                        <strong>Date :</strong>
+                        <span th:text="${#temporals.format(demande.dateDemande, 'dd/MM/yyyy')}"></span>
+                    </p>
+                    <p>
+                        <i class="bi bi-info-circle"></i>
+                        <strong>Statut :</strong>
+                        <span th:switch="${demande.statut.name()}">
+                            <span th:case="'EN_ATTENTE'" class="badge-status badge-en-attente">En attente</span>
+                            <span th:case="'APPROUVEE'" class="badge-status badge-approuvee">Approuvée</span>
+                            <span th:case="'REFUSEE'" class="badge-status badge-refusee">Refusée</span>
+                        </span>
+                    </p>
+                </div>
+
+                <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
+
+                    <div th:if="${demande.statut.name() == 'EN_ATTENTE'}" class="d-flex">
+                        <form th:action="@{'/demandes/changer-statut/' + ${demande.id}}" method="post">
+                            <input type="hidden" name="statut" value="APPROUVEE"/>
+                            <button class="btn btn-success btn-sm" type="submit">
+                                <i class="bi bi-check-circle"></i> Approuver
+                            </button>
+                        </form>
+
+                        <form th:action="@{'/demandes/changer-statut/' + ${demande.id}}" method="post" class="ms-2">
+                            <input type="hidden" name="statut" value="REFUSEE"/>
+                            <button class="btn btn-danger btn-sm" type="submit">
+                                <i class="bi bi-x-circle"></i> Refuser
+                            </button>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(demandes)}" class="alert alert-info mt-4">
+        Aucune demande n’a encore été enregistrée.
+    </div>
+</div>
+
+<script th:src="@{/vendors/scripts/core.js}"></script>
+<script th:src="@{/vendors/scripts/script.min.js}"></script>
+<script th:src="@{/vendors/scripts/process.js}"></script>
+<script th:src="@{/vendors/scripts/layout-settings.js}"></script>
+<script th:src="@{/src/plugins/jquery-steps/jquery.steps.js}"></script>
+<script th:src="@{/vendors/scripts/steps-setting.js}"></script>
+
+<!-- DataTables + ApexCharts -->
+<script th:src="@{/src/plugins/apexcharts/apexcharts.min.js}"></script>
+<script th:src="@{/src/plugins/datatables/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/src/plugins/datatables/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/src/plugins/datatables/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/src/plugins/datatables/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/vendors/scripts/dashboard3.js}"></script>
+</body>
+</html>

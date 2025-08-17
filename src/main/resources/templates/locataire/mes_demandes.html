@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mes demandes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        .card-status {
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .status-en-attente {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-approuvee {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-refusee {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .card-unite {
+            transition: transform 0.2s ease;
+        }
+
+        .card-unite:hover {
+            transform: scale(1.02);
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/vendors/images/apple-touch-icon.png}" />
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/vendors/images/favicon-32x32.png}" />
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/vendors/images/favicon-16x16.png}" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/vendors/styles/core.css}" />
+    <link rel="stylesheet" th:href="@{/vendors/styles/icon-font.min.css}" />
+    <link rel="stylesheet" th:href="@{/src/plugins/jquery-steps/jquery.steps.css}" />
+    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/dataTables.bootstrap4.min.css}" />
+    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/responsive.bootstrap4.min.css}" />
+    <link rel="stylesheet" th:href="@{/vendors/styles/style.css}" />
+
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/header :: topbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="container py-5">
+    <h2 class="mb-4 text-primary">Mes demandes de location</h2>
+
+    <div th:if="${#lists.isEmpty(demandes)}" class="alert alert-info">
+        Aucune demande de location effectuée pour le moment.
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" th:if="${not #lists.isEmpty(demandes)}">
+        <div class="col" th:each="demande : ${demandes}">
+            <div class="card h-100 shadow-sm card-unite">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${demande.unite.numero}">Nom de l’unité</h5>
+                    <p class="card-text">
+                        <i class="bi bi-calendar3"></i>
+                        <strong>Date :</strong>
+                        <span th:text="${#temporals.format(demande.dateDemande, 'dd/MM/yyyy')}"></span>
+                    </p>
+                    <p class="card-text">
+                        Statut :
+                        <span th:switch="${demande.statut.name()}">
+                            <span th:case="'EN_ATTENTE'" class="card-status status-en-attente">En attente</span>
+                            <span th:case="'APPROUVEE'" class="card-status status-approuvee">Approuvée</span>
+                            <span th:case="'REFUSEE'" class="card-status status-refusee">Refusée</span>
+                        </span>
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/vendors/scripts/core.js}"></script>
+<script th:src="@{/vendors/scripts/script.min.js}"></script>
+<script th:src="@{/vendors/scripts/process.js}"></script>
+<script th:src="@{/vendors/scripts/layout-settings.js}"></script>
+<script th:src="@{/src/plugins/jquery-steps/jquery.steps.js}"></script>
+<script th:src="@{/vendors/scripts/steps-setting.js}"></script>
+
+<!-- DataTables + ApexCharts -->
+<script th:src="@{/src/plugins/apexcharts/apexcharts.min.js}"></script>
+<script th:src="@{/src/plugins/datatables/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/src/plugins/datatables/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/src/plugins/datatables/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/src/plugins/datatables/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/vendors/scripts/dashboard3.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/gestiond_immeubles
+    username: postgres
+    password: passer
+  jpa.hibernate.ddl-auto: update

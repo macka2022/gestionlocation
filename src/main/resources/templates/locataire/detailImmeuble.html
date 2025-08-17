@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Basic Page Info -->
+    <meta charset="utf-8" />
+    <title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
+
+    <!-- Site favicon -->
+    <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            th:href="@{/vendors/images/apple-touch-icon.png}"
+    />
+    <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            th:href="@{/vendors/images/favicon-32x32.png}"
+    />
+    <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            th:href="@{/vendors/images/favicon-16x16.png}"
+    />
+
+    <!-- Mobile Specific Metas -->
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+
+    <!-- Google Font -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet"
+    />
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/vendors/styles/core.css}" />
+    <link
+            rel="stylesheet"
+            type="text/css"
+            th:href="@{/vendors/styles/icon-font.min.css}"
+    />
+    <link rel="stylesheet" type="text/css" th:href="@{/vendors/styles/style.css}" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-GBZ3SGGX85"
+    ></script>
+    <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973766580778258"
+            crossorigin="anonymous"
+    ></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "G-GBZ3SGGX85");
+    </script>
+    <!-- Google Tag Manager -->
+
+    <!-- End Google Tag Manager -->
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: topbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="main-container">
+    <div class="pd-ltr-20 xs-pd-20-10">
+        <div class="min-height-200px">
+            <div class="product-detail-wrap mb-30">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="product-slider slider-arrow">
+                            <div class="product-slide">
+                                <img th:src="@{/vendors/images/product-img1.jpg}" alt="" />
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6 col-md-10 col-sm-12">
+                        <div class="product-detail-desc pd-10 card-box height-100-p">
+                            <h3 class="product-detail-title mb-10">Nom de l'immeuble: <span class="product-detail-subtitle mb-10" th:text="${immeuble.nom}"></span></h3>
+
+                            <h4 class="mb-10 pt-20">Descriptionn Immeuble</h4>
+                            <p th:text="${immeuble.description}">
+                            </p>
+                            <h4 class="mb-3 pt-10">Equipements : <span th:text="${immeuble.equipements}"></span></h4>
+
+
+
+                            <p class="mb-3 pt-20">Adresse: <span class=" pt-10" th:text="${immeuble.adresse}"> </span></p>
+
+
+
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container px-0">
+                <h4 class="mb-30 text-blue text-center h4">LISTE DES UNITES DE CET IMMEUBLE</h4>
+
+               <!-- <div th:if="${succes}" class="alert alert-danger" role="alert">
+                    <span th:text="${error}"></span>-->
+                </div>
+                <div class="row" th:each="unite : ${unites}">
+                    <div class="col-md-4 mb-30">
+                        <div class="card-box pricing-card mt-30 mb-30">
+                            <div class="pricing-icon">
+                                <img src="vendors/images/icon-Cash.png" alt="" />
+                            </div>
+                            <div class="price-title" th:text="${unite.numero}"></div>Loyer <br>
+                            <div class="pricing-price" th:text="${unite.loyer}">FCFA</sup>/mois</sub></div>
+                            <h4>Pieces</h4>
+                            <div class="text" th:text="${unite.pieces}"></div>
+                            <h4>Suerface</h4>
+                                <div class="text" th:text="${unite.surface}"> </div>
+
+
+
+
+                            <div class="cta">
+                                <a th:href="@{/immobilier/unitelocation/resever/{id}(id=${unite.id})}"
+                                   class="btn btn-primary"
+                                   th:if="${unite.statut == 'disponible'}">
+                                    Réserver
+                                </a>
+                                <span th:if="${unite.statut != 'disponible'}" class="text-muted">Indisponible</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+            <div class="footer-wrap pd-20 mb-20 card-box">
+                DES APPARTEMENTS OU CHAMBRES CONFORTABLES
+                <a href="https://github.com/dropways" target="_blank"
+                >2026</a
+                >
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{/vendors/scripts/core.js}"></script>
+<script th:src="@{/vendors/scripts/script.min.js}"></script>
+<script th:src="@{/vendors/scripts/process.js}"></script>
+<script th:src="@{/vendors/scripts/layout-settings.js}"></script>
+<!-- Google Tag Manager (noscript) -->
+<noscript
+><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
+</body>
+</html>
