@@ -1,99 +1,185 @@
 <!-- templates/contrat/form.html -->
 
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ang">
-
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>listeruser</title>
-    <!-- Basic Page Info -->
-    <meta charset="utf-8" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/vendors/images/apple-touch-icon.png}" />
-    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/vendors/images/favicon-32x32.png}" />
-    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/vendors/images/favicon-16x16.png}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ajouter un Paiement</title>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- CSS -->
-    <link rel="stylesheet" th:href="@{/vendors/styles/core.css}" />
-    <link rel="stylesheet" th:href="@{/vendors/styles/icon-font.min.css}" />
-    <link rel="stylesheet" th:href="@{/src/plugins/jquery-steps/jquery.steps.css}" />
-    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/dataTables.bootstrap4.min.css}" />
-    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/responsive.bootstrap4.min.css}" />
-    <link rel="stylesheet" th:href="@{/vendors/styles/style.css}" />
+    <!-- Styles principaux -->
+    <style>
+        :root {
+            --crimson: #DC143C;
+            --crimson-light: #FF6F91;
+            --gray-light: #F5F5F5;
+            --text-dark: #333333;
+        }
 
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gray-light);
+            color: var(--text-dark);
+        }
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-GBZ3SGGX85"
-    ></script>
-    <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973766580778258"
-            crossorigin="anonymous"
-    ></script>
-    <title></title>
+        /* Topbar */
+        .topbar {
+            height: 60px;
+            background-color: var(--crimson);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .topbar .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .topbar .icons {
+            display: flex;
+            gap: 15px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .topbar .icons:hover {
+            color: var(--crimson-light);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 220px;
+            height: calc(100% - 60px);
+            background: linear-gradient(180deg, #B22222, var(--crimson));
+            color: white;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+            margin-bottom: 5px;
+            border-radius: 0 5px 5px 0;
+            transition: all 0.3s ease;
+        }
+        .sidebar a:hover {
+            background-color: var(--crimson-light);
+            border-left: 4px solid white;
+        }
+
+        /* Contenu principal */
+        .main-container {
+            margin-left: 240px;
+            padding: 30px;
+        }
+        h2 {
+            color: var(--crimson);
+            margin-bottom: 20px;
+        }
+
+        /* Formulaire */
+        form {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 500px;
+        }
+        label {
+            font-weight: 500;
+            margin-top: 15px;
+            display: block;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border 0.3s ease;
+        }
+        input:focus, select:focus {
+            border-color: var(--crimson);
+            outline: none;
+        }
+
+        /* Bouton */
+        .btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: var(--crimson);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background-color: var(--crimson-light);
+        }
+    </style>
 </head>
 
-
 <body>
-<div th:replace="~{fragments/header :: topbar}"></div>
-<div th:replace="~{fragments/sidebar :: sidebar}"></div>
-<div  class="main-container">
+
+<!-- Topbar -->
+<div class="topbar">
+    <div class="logo">Crimson App</div>
+    <div class="icons">
+        <span>🔔</span>
+        <span>👤</span>
+    </div>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <a href="#">Accueil</a>
+    <a href="#">Dashboard</a>
+    <a href="#">Contrats</a>
+    <a href="#">Paiements</a>
+    <a href="#">Profil</a>
+    <a href="#">Paramètres</a>
+</div>
+
+<!-- Contenu principal -->
+<div class="main-container">
     <h2>Ajouter un Paiement</h2>
     <form th:action="@{/paiements/add}" th:object="${paiement}" method="post">
         <input type="hidden" th:field="*{contrat.id}" />
+
         <label>Date de paiement:</label>
-        <input type="date" th:field="*{datePaiement}" class="form-control" />
+        <input type="date" th:field="*{datePaiement}" />
 
         <label>Montant:</label>
-        <input type="number" th:field="*{montant}" step="0.01" class="form-control" />
+        <input type="number" th:field="*{montant}" step="0.01" />
+
         <label>Mois:</label>
-        <input type="number" th:field="*{mois}" step="0.01" class="form-control" />
+        <input type="number" th:field="*{mois}" step="0.01" />
 
         <input type="hidden" th:field="*{contrat.id}" />
-        <br />
 
-        <select class="form-control" th:field="*{statut}">
+        <label>Statut:</label>
+        <select th:field="*{statut}">
             <option value="EN_RETARD">En attente</option>
             <option value="PAYE">Payé</option>
         </select>
-        <button type="submit" class="btn btn-success">Enregistrer</button>
+
+        <button type="submit" class="btn">Enregistrer</button>
     </form>
-
-
-
-    <script th:src="@{/vendors/scripts/core.js}"></script>
-    <script th:src="@{/vendors/scripts/script.min.js}"></script>
-    <script th:src="@{/vendors/scripts/process.js}"></script>
-    <script th:src="@{/vendors/scripts/layout-settings.js}"></script>
-    <script th:src="@{/src/plugins/jquery-steps/jquery.steps.js}"></script>
-    <script th:src="@{/vendors/scripts/steps-setting.js}"></script>
-
-    <!-- DataTables + ApexCharts -->
-    <script th:src="@{/src/plugins/apexcharts/apexcharts.min.js}"></script>
-    <script th:src="@{/src/plugins/datatables/js/jquery.dataTables.min.js}"></script>
-    <script th:src="@{/src/plugins/datatables/js/dataTables.bootstrap4.min.js}"></script>
-    <script th:src="@{/src/plugins/datatables/js/dataTables.responsive.min.js}"></script>
-    <script th:src="@{/src/plugins/datatables/js/responsive.bootstrap4.min.js}"></script>
-    <script th:src="@{/vendors/scripts/dashboard3.js}"></script>
-
-
-
 </div>
-<!-- Google Tag Manager (noscript) -->
-<noscript
-><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-></iframe
-></noscript>
+
 </body>
 </html>
