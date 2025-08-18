@@ -6,65 +6,244 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
-        .card-status {
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            margin: 0;
+            color: #333;
+        }
+
+        /* --- TOPBAR --- */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, #6a11cb, #ff6ec4);
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar .logo {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            height: 2px;
+            width: 0;
+            background: white;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .user-name {
+            margin-right: 1rem;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            color: white;
+            text-decoration: none;
             font-weight: bold;
             padding: 6px 12px;
+            border: 1px solid white;
             border-radius: 20px;
-            display: inline-block;
+            transition: 0.3s;
         }
 
+        .logout-btn:hover {
+            background: white;
+            color: #6a11cb;
+        }
+
+        /* --- CONTAINER --- */
+        .table-container {
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            max-width: 95%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease;
+        }
         .status-en-attente {
-            background-color: #fff3cd;
-            color: #856404;
+            background-color: #ffd966;
+            color: #7a5c00;
+            padding: 4px 8px;
+            border-radius: 6px;
         }
-
         .status-approuvee {
             background-color: #d4edda;
             color: #155724;
+            padding: 4px 8px;
+            border-radius: 6px;
         }
-
         .status-refusee {
             background-color: #f8d7da;
             color: #721c24;
+            padding: 4px 8px;
+            border-radius: 6px;
         }
 
-        .card-unite {
-            transition: transform 0.2s ease;
+        .table-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #6a11cb;
         }
 
-        .card-unite:hover {
-            transform: scale(1.02);
+        /* --- TABLE --- */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-table thead {
+            background: linear-gradient(90deg, #6a11cb, #ff6ec4);
+            color: white;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 14px 16px;
+            text-align: left;
+        }
+
+        .custom-table tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .custom-table tbody tr:hover {
+            background: #f8f0ff;
+            transform: scale(1.01);
+        }
+
+        /* --- BUTTONS --- */
+        .btn-action {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            margin: 2px;
+        }
+
+        .btn-crimson {
+            background: linear-gradient(90deg, #ff6ec4, #6a11cb);
+            color: white;
+        }
+
+        .btn-crimson:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
+
+        /* --- Animation --- */
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(10px);}
+            to {opacity: 1; transform: translateY(0);}
         }
     </style>
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/vendors/images/apple-touch-icon.png}" />
-    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/vendors/images/favicon-32x32.png}" />
-    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/vendors/images/favicon-16x16.png}" />
+   <body>
+<div  class="topbar" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
-    <!-- CSS -->
-    <link rel="stylesheet" th:href="@{/vendors/styles/core.css}" />
-    <link rel="stylesheet" th:href="@{/vendors/styles/icon-font.min.css}" />
-    <link rel="stylesheet" th:href="@{/src/plugins/jquery-steps/jquery.steps.css}" />
-    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/dataTables.bootstrap4.min.css}" />
-    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/responsive.bootstrap4.min.css}" />
-    <link rel="stylesheet" th:href="@{/vendors/styles/style.css}" />
+    <div class="topbar-center">
+        <ul class="nav-links">
+            <!-- ADMIN -->
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/immobilier/immeuble/admin/list}"><i class="bi bi-house"></i> Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/immobilier/utilisateur/list}"><i class="bi bi-people"></i> Utilisateurs</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/contrats/admin/list}"><i class="bi bi-file-text"></i> Contrats</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/paiements/contrat}"><i class="bi bi-currency-dollar"></i> Paiements</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/dashboard}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            </li>
 
-</head>
-<body class="bg-light">
-<div th:replace="~{fragments/header :: topbar}"></div>
-<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+            <!-- LOCATAIRE -->
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/immobilier/immeuble/locataire/list}"><i class="bi bi-building"></i> Mes Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/demandes/mes-demandes}"><i class="bi bi-card-checklist"></i> Mes Réservations</a>
+            </li>
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/contrats/locataire/list}"><i class="bi bi-file-text"></i> Mes Contrats</a>
+            </li>
+
+            <!-- PROPRIETAIRE -->
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/immobilier/immeuble/proprietaire/list}"><i class="bi bi-building"></i> Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/immobilier/immeuble/add}"><i class="bi bi-plus-square"></i> Ajouter Immeuble</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/contrats/proprietaire/list}"><i class="bi bi-file-text"></i> Contrats</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/contrats/proprietaire/add}"><i class="bi bi-plus-square"></i> Ajouter Contrat</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="topbar-right">
+        <span sec:authentication="name" class="user-name"></span>
+        <a th:href="@{/logout}" class="logout-btn"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+</div>
 <div class="container py-5">
-    <h2 class="mb-4 text-primary">Mes demandes de location</h2>
+    <h2 class="mb-4 text-white">Mes demandes de location</h2>
 
     <div th:if="${#lists.isEmpty(demandes)}" class="alert alert-info">
         Aucune demande de location effectuée pour le moment.
     </div>
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" th:if="${not #lists.isEmpty(demandes)}">
         <div class="col" th:each="demande : ${demandes}">
-            <div class="card h-100 shadow-sm card-unite">
+            <div class="card h-100 shadow-sm border-crimson card-unite">
+                <div class="card-header bg-crimson text-white">
+                    <strong th:text="'Demande #' + ${demande.id}">Demande #1</strong>
+                </div>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${demande.unite.numero}">Nom de l’unité</h5>
                     <p class="card-text">
@@ -81,27 +260,13 @@
                         </span>
                     </p>
                 </div>
-                <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between">
 
-                </div>
             </div>
         </div>
     </div>
 </div>
-<script th:src="@{/vendors/scripts/core.js}"></script>
-<script th:src="@{/vendors/scripts/script.min.js}"></script>
-<script th:src="@{/vendors/scripts/process.js}"></script>
-<script th:src="@{/vendors/scripts/layout-settings.js}"></script>
-<script th:src="@{/src/plugins/jquery-steps/jquery.steps.js}"></script>
-<script th:src="@{/vendors/scripts/steps-setting.js}"></script>
 
-<!-- DataTables + ApexCharts -->
-<script th:src="@{/src/plugins/apexcharts/apexcharts.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/jquery.dataTables.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/dataTables.bootstrap4.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/dataTables.responsive.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/responsive.bootstrap4.min.js}"></script>
-<script th:src="@{/vendors/scripts/dashboard3.js}"></script>
+
 
 </body>
 </html>

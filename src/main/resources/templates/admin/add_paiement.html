@@ -1,99 +1,210 @@
-<!-- templates/contrat/form.html -->
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ang">
-
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>listeruser</title>
-    <!-- Basic Page Info -->
-    <meta charset="utf-8" />
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/vendors/images/apple-touch-icon.png}" />
-    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/vendors/images/favicon-32x32.png}" />
-    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/vendors/images/favicon-16x16.png}" />
+    <title>Ajouter Paiement - Crimson Style</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" th:href="@{/vendors/styles/core.css}" />
-    <link rel="stylesheet" th:href="@{/vendors/styles/icon-font.min.css}" />
-    <link rel="stylesheet" th:href="@{/src/plugins/jquery-steps/jquery.steps.css}" />
-    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/dataTables.bootstrap4.min.css}" />
-    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/responsive.bootstrap4.min.css}" />
-    <link rel="stylesheet" th:href="@{/vendors/styles/style.css}" />
+    <link rel="stylesheet" th:href="@{/vendors/styles/core.css}">
+    <link rel="stylesheet" th:href="@{/vendors/styles/icon-font.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/styles/style.css}">
 
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff0f2;
+        }
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-GBZ3SGGX85"
-    ></script>
-    <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973766580778258"
-            crossorigin="anonymous"
-    ></script>
-    <title></title>
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(178,34,34,0.2);
+        }
+
+        h2 {
+            color: crimson;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #b22222;
+        }
+
+        .form-control {
+            border: 2px solid #b22222;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 5px;
+            width: 100%;
+        }
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: crimson;
+            padding: 0.7rem 1.5rem;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .topbar .logo {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ffd6d6;
+        }
+
+        .user-name {
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            color: white;
+            text-decoration: none;
+        }
+        .logout-btn:hover {
+            color: #ffd6d6;
+        }
+    </style>
+
+        .btn-crimson {
+            background-color: crimson;
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-crimson:hover {
+            background-color: #a0001f;
+        }
+    </style>
 </head>
-
-
 <body>
-<div th:replace="~{fragments/header :: topbar}"></div>
-<div th:replace="~{fragments/sidebar :: sidebar}"></div>
-<div  class="main-container">
+
+<div  class="topbar" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <div class="topbar-left">
+        <a href="/">
+            <img src="vendors/images/deskapp-logo-white.svg" alt="logo" class="logo"/>
+        </a>
+    </div>
+
+    <div class="topbar-center">
+        <ul class="nav-links">
+            <!-- ADMIN -->
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/immobilier/immeuble/admin/list}"><i class="bi bi-house"></i> Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/immobilier/utilisateur/list}"><i class="bi bi-people"></i> Utilisateurs</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/contrats/admin/list}"><i class="bi bi-file-text"></i> Contrats</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/paiements/contrat}"><i class="bi bi-currency-dollar"></i> Paiements</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/dashboard}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            </li>
+
+            <!-- LOCATAIRE -->
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/immobilier/immeuble/locataire/list}"><i class="bi bi-building"></i> Mes Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/demandes/mes-demandes}"><i class="bi bi-card-checklist"></i> Mes Réservations</a>
+            </li>
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/contrats/locataire/list}"><i class="bi bi-file-text"></i> Mes Contrats</a>
+            </li>
+
+            <!-- PROPRIETAIRE -->
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/immobilier/immeuble/proprietaire/list}"><i class="bi bi-building"></i> Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/immobilier/immeuble/add}"><i class="bi bi-plus-square"></i> Ajouter Immeuble</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/contrats/proprietaire/list}"><i class="bi bi-file-text"></i> Contrats</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/contrats/proprietaire/add}"><i class="bi bi-plus-square"></i> Ajouter Contrat</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="topbar-right">
+        <span sec:authentication="name" class="user-name"></span>
+        <a th:href="@{/logout}" class="logout-btn"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+</div>
+
+<div class="form-container">
     <h2>Ajouter un Paiement</h2>
     <form th:action="@{/paiements/add}" th:object="${paiement}" method="post">
         <input type="hidden" th:field="*{contrat.id}" />
-        <label>Date de paiement:</label>
-        <input type="date" th:field="*{datePaiement}" class="form-control" />
 
-        <label>Montant:</label>
-        <input type="number" th:field="*{montant}" step="0.01" class="form-control" />
-        <label>Mois:</label>
-        <input type="number" th:field="*{mois}" step="0.01" class="form-control" />
+        <div class="form-group">
+            <label>Date de paiement:</label>
+            <input type="date" th:field="*{datePaiement}" class="form-control" placeholder="Sélectionnez la date" />
+        </div>
 
-        <input type="hidden" th:field="*{contrat.id}" />
-        <br />
+        <div class="form-group">
+            <label>Montant:</label>
+            <input type="number" th:field="*{montant}" step="0.01" class="form-control" placeholder="Entrez le montant" />
+        </div>
 
-        <select class="form-control" th:field="*{statut}">
-            <option value="EN_RETARD">En attente</option>
-            <option value="PAYE">Payé</option>
-        </select>
-        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <div class="form-group">
+            <label>Mois:</label>
+            <input type="number" th:field="*{mois}" class="form-control" placeholder="Ex: 1 pour janvier" />
+        </div>
+
+        <div class="form-group">
+            <label>Statut:</label>
+            <select class="form-control" th:field="*{statut}">
+                <option value="EN_RETARD">En attente</option>
+                <option value="PAYE">Payé</option>
+            </select>
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn-crimson">Enregistrer</button>
+        </div>
     </form>
-
-
-
-    <script th:src="@{/vendors/scripts/core.js}"></script>
-    <script th:src="@{/vendors/scripts/script.min.js}"></script>
-    <script th:src="@{/vendors/scripts/process.js}"></script>
-    <script th:src="@{/vendors/scripts/layout-settings.js}"></script>
-    <script th:src="@{/src/plugins/jquery-steps/jquery.steps.js}"></script>
-    <script th:src="@{/vendors/scripts/steps-setting.js}"></script>
-
-    <!-- DataTables + ApexCharts -->
-    <script th:src="@{/src/plugins/apexcharts/apexcharts.min.js}"></script>
-    <script th:src="@{/src/plugins/datatables/js/jquery.dataTables.min.js}"></script>
-    <script th:src="@{/src/plugins/datatables/js/dataTables.bootstrap4.min.js}"></script>
-    <script th:src="@{/src/plugins/datatables/js/dataTables.responsive.min.js}"></script>
-    <script th:src="@{/src/plugins/datatables/js/responsive.bootstrap4.min.js}"></script>
-    <script th:src="@{/vendors/scripts/dashboard3.js}"></script>
-
-
-
 </div>
-<!-- Google Tag Manager (noscript) -->
-<noscript
-><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-></iframe
-></noscript>
+
 </body>
 </html>

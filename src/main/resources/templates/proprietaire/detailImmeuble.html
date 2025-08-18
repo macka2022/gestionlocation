@@ -1,173 +1,378 @@
 <!DOCTYPE html>
 <html xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <!-- Basic Page Info -->
-    <meta charset="utf-8" />
-    <title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
-
-    <!-- Site favicon -->
-    <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            th:href="@{/vendors/images/apple-touch-icon.png}"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            th:href="@{/vendors/images/favicon-32x32.png}"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            th:href="@{/vendors/images/favicon-16x16.png}"
-    />
-
-    <!-- Mobile Specific Metas -->
-    <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=1"
-    />
+    <meta charset="utf-8">
+    <title>Détails Immeuble - Crimson Style</title>
 
     <!-- Google Font -->
-    <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-            rel="stylesheet"
-    />
-    <!-- CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{/vendors/styles/core.css}" />
-    <link
-            rel="stylesheet"
-            type="text/css"
-            th:href="@{/vendors/styles/icon-font.min.css}"
-    />
-    <link rel="stylesheet" type="text/css" th:href="@{/vendors/styles/style.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-GBZ3SGGX85"
-    ></script>
-    <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973766580778258"
-            crossorigin="anonymous"
-    ></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-            dataLayer.push(arguments);
+    <!-- CSS de base -->
+    <link rel="stylesheet" th:href="@{/vendors/styles/core.css}">
+    <link rel="stylesheet" th:href="@{/vendors/styles/icon-font.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/styles/style.css}">
+
+    <style>
+        .container-detail {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
         }
-        gtag("js", new Date());
+        .detail-card {
+            background: linear-gradient(135deg, #ffffff, #f8f0ff);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease;
+        }
+        .detail-title {
+            color: #6a11cb;
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .detail-section h4 {
+            color: #ff6ec4;
+            margin-bottom: 0.5rem;
+        }
+        .detail-section p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #333;
+        }
+        .btn-detail {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #ff6ec4, #6a11cb);
+            color: #fff;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn-detail:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
 
-        gtag("config", "G-GBZ3SGGX85");
-    </script>
-    <!-- Google Tag Manager -->
+        /* Unités */
+        .unit-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #6a11cb;
+            margin: 2rem 0 1.5rem 0;
+        }
+        .unit-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .unit-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            width: 220px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .unit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .unit-number {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #6a11cb;
+            margin-bottom: 0.5rem;
+        }
+        .unit-loyer {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #ff6ec4;
+            margin-bottom: 0.8rem;
+        }
+        .unit-info span {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+        .unit-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .available {
+            background: #4CAF50;
+            color: #fff;
+        }
+        .occupied {
+            background: #b22222;
+            color: #fff;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(10px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
 
-    <!-- End Google Tag Manager -->
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            margin: 0;
+            color: #333;
+        }
+
+        /* --- TOPBAR --- */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, #6a11cb, #ff6ec4);
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar .logo {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            height: 2px;
+            width: 0;
+            background: white;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .user-name {
+            margin-right: 1rem;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 6px 12px;
+            border: 1px solid white;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: white;
+            color: #6a11cb;
+        }
+
+        /* --- CONTAINER --- */
+        .table-container {
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            max-width: 95%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .table-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #6a11cb;
+        }
+
+        /* --- TABLE --- */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-table thead {
+            background: linear-gradient(90deg, #6a11cb, #ff6ec4);
+            color: white;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 14px 16px;
+            text-align: left;
+        }
+
+        .custom-table tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .custom-table tbody tr:hover {
+            background: #f8f0ff;
+            transform: scale(1.01);
+        }
+
+        /* --- BUTTONS --- */
+        .btn-action {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            margin: 2px;
+        }
+
+        .btn-crimson {
+            background: linear-gradient(90deg, #ff6ec4, #6a11cb);
+            color: white;
+        }
+
+        .btn-crimson:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
+
+        /* --- Animation --- */
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(10px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
 </head>
 <body>
 
-<div th:replace="~{fragments/header :: topbar}"></div>
-<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<!-- Topbar -->
+<div class="topbar" xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <div class="topbar-left">
+        <a href="/"><img src="vendors/images/deskapp-logo-white.svg" alt="logo" class="logo"/></a>
+    </div>
+    <div class="topbar-center">
+        <ul class="nav-links">
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/immobilier/immeuble/admin/list}"><i class="bi bi-house"></i> Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/immobilier/utilisateur/list}"><i class="bi bi-people"></i> Utilisateurs</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/contrats/admin/list}"><i class="bi bi-file-text"></i> Contrats</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/paiements/contrat}"><i class="bi bi-currency-dollar"></i> Paiements</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/dashboard}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            </li>
 
-<div class="main-container">
-    <div class="pd-ltr-20 xs-pd-20-10">
-        <div class="min-height-200px">
-            <div class="product-detail-wrap mb-30">
-                <div class="row">
-                    <div class="col-lg-6 col-md-12 col-sm-12">
-                        <div class="product-slider slider-arrow">
-                            <div class="product-slide">
-                                <img th:src="@{/vendors/images/product-img1.jpg}" alt="" />
-                            </div>
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/immobilier/immeuble/locataire/list}"><i class="bi bi-building"></i> Mes Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/demandes/mes-demandes}"><i class="bi bi-card-checklist"></i> Mes Réservations</a>
+            </li>
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/contrats/locataire/list}"><i class="bi bi-file-text"></i> Mes Contrats</a>
+            </li>
 
-                        </div>
-
-                    </div>
-                    <div class="col-lg-6 col-md-10 col-sm-12">
-                        <div class="product-detail-desc pd-10 card-box height-100-p">
-                            <h3 class="product-detail-title mb-10">Nom de l'immeuble: <span class="product-detail-subtitle mb-10" th:text="${immeuble.nom}"></span></h3>
-
-                            <h4 class="mb-10 pt-20">Descriptionn Immeuble</h4>
-                            <p th:text="${immeuble.description}">
-                            </p>
-                            <h4 class="mb-3 pt-10">Equipements : <span th:text="${immeuble.equipements}"></span></h4>
-
-
-
-                            <p class="mb-3 pt-20">Adresse: <span class=" pt-10" th:text="${immeuble.adresse}"> </span></p>
-                            <a  sec:authorize="hasRole('PROPRIETAIRE')" class="btn btn-success " th:href="@{/immobilier/unitelocation/add/{id}(id=${immeuble.getId()})}">Ajouter une unite</a>
-
-
-                        </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container px-0">
-                <h4 class="mb-30 text-blue text-center h4">LISTE DES UNITES DE CET IMMEUBLE</h4>
-
-               <!-- <div th:if="${succes}" class="alert alert-danger" role="alert">
-                    <span th:text="${error}"></span>-->
-                </div>
-                <div class="row" th:each="unite : ${unites}">
-                    <div class="col-md-4 mb-30">
-                        <div class="card-box pricing-card mt-30 mb-30">
-                            <div class="pricing-icon">
-                                <img src="vendors/images/icon-Cash.png" alt="" />
-                            </div>
-                            <div class="price-title" th:text="${unite.numero}"></div>Loyer <br>
-                            <div class="pricing-price" th:text="${unite.loyer}">FCFA</sup>/mois</sub></div>
-                            <h4>Pieces</h4>
-                            <div class="text" th:text="${unite.pieces}"></div>
-                            <h4>Suerface</h4>
-                                <div class="text" th:text="${unite.surface}"> </div>
-
-
-
-
-                            <div class="cta">
-
-                                <span th:if="${unite.statut == 'DISPONIBLE'}" class="text-muted">Disponible</span>
-                                <span th:if="${unite.statut != 'DISPONIBLE'}" class="text-muted">Indisponible</span>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-
-
-            </div>
-            <div class="footer-wrap pd-20 mb-20 card-box">
-                DES APPARTEMENTS OU CHAMBRES CONFORTABLES
-                <a href="https://github.com/dropways" target="_blank"
-                >2026</a
-                >
-            </div>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/immobilier/immeuble/proprietaire/list}"><i class="bi bi-building"></i> Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/immobilier/immeuble/add}"><i class="bi bi-plus-square"></i> Ajouter Immeuble</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/contrats/proprietaire/list}"><i class="bi bi-file-text"></i> Contrats</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/contrats/proprietaire/add}"><i class="bi bi-plus-square"></i> Ajouter Contrat</a>
+            </li>
+        </ul>
+    </div>
+    <div class="topbar-right">
+        <span sec:authentication="name" class="user-name"></span>
+        <a th:href="@{/logout}" class="logout-btn"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+</div>
+<div class="container-detail">
+    <div class="detail-card">
+        <h2 class="detail-title" th:text="${immeuble.nom}">Nom Immeuble</h2>
+        <div class="detail-section">
+            <h4>Description</h4>
+            <p th:text="${immeuble.description}">Description de l'immeuble</p>
         </div>
+        <div class="detail-section">
+            <h4>Équipements</h4>
+            <p th:text="${immeuble.equipements}">Équipements</p>
+        </div>
+        <div class="detail-section">
+            <h4>Adresse</h4>
+            <p th:text="${immeuble.adresse}">Adresse</p>
+        </div>
+        <a sec:authorize="hasRole('PROPRIETAIRE')"
+           class="btn btn-detail"
+           th:href="@{/immobilier/unitelocation/add/{id}(id=${immeuble.getId()})}">
+            Ajouter une unité
+        </a>
     </div>
 </div>
 
+<!-- Liste unités -->
+<h3 class="unit-title">Liste des unités</h3>
+<div class="unit-row">
+    <div class="unit-card" th:each="unite : ${unites}">
+        <div class="unit-number" th:text="${unite.numero}">U1</div>
+        <div class="unit-loyer" th:text="${unite.loyer}">200 000 FCFA/mois</div>
+        <div class="unit-info">
+            <span>Pièces: <strong th:text="${unite.pieces}">3</strong></span>
+            <span>Surface: <strong th:text="${unite.surface}">80 m²</strong></span>
+        </div>
+        <span th:if="${unite.statut.name() == 'DISPONIBLE'}" class="unit-status available">Disponible</span>
+        <span th:if="${unite.statut.name() == 'OCCUPE'}" class="unit-status occupied">Indisponible</span>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer-wrap">
+    DES APPARTEMENTS OU CHAMBRES CONFORTABLES
+    <a href="https://github.com/dropways" target="_blank">2026</a>
+</div>
 
 <script th:src="@{/vendors/scripts/core.js}"></script>
 <script th:src="@{/vendors/scripts/script.min.js}"></script>
 <script th:src="@{/vendors/scripts/process.js}"></script>
 <script th:src="@{/vendors/scripts/layout-settings.js}"></script>
-<!-- Google Tag Manager (noscript) -->
-<noscript
-><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-></iframe
-></noscript>
-<!-- End Google Tag Manager (noscript) -->
+
 </body>
 </html>

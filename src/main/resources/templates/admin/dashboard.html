@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8" />
-    <title>Statistiques - Gestion Location</title>
+    <title>Statistiques</title>
 
     <!-- CSS -->
     <link rel="stylesheet" th:href="@{/vendors/styles/core.css}" />
@@ -10,43 +10,230 @@
     <link rel="stylesheet" th:href="@{/src/plugins/jquery-steps/jquery.steps.css}" />
     <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/dataTables.bootstrap4.min.css}" />
     <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/responsive.bootstrap4.min.css}" />
-    <link rel="stylesheet" th:href="@{/vendors/styles/style.css}" />
+    <link rel="stylesheet" th:href="@{/vendors/styles/style.css}"/>
 
     <style>
-        .kpi-card { border: 0; border-radius: 1rem; box-shadow: 0 6px 20px rgba(0,0,0,.08); }
-        .kpi-value { font-size: 1.8rem; font-weight: 700; }
-        .kpi-label { color: #6c757d; font-size: .9rem; }
-    </style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            margin: 0;
+            color: #333;
+        }
+
+         /* --- TOPBAR --- */
+         .topbar {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             background: linear-gradient(90deg, #6a11cb, #ff6ec4);
+             padding: 1rem 2rem;
+             color: white;
+             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+             position: sticky;
+             top: 0;
+             z-index: 100;
+         }
+
+         .topbar .logo {
+             height: 40px;
+         }
+
+         .nav-links {
+             display: flex;
+             gap: 1.5rem;
+             list-style: none;
+             margin: 0;
+             padding: 0;
+         }
+
+         .nav-links a {
+             color: white;
+             text-decoration: none;
+             font-weight: 500;
+             position: relative;
+             transition: all 0.3s ease;
+         }
+
+         .nav-links a::after {
+             content: "";
+             position: absolute;
+             bottom: -5px;
+             left: 0;
+             height: 2px;
+             width: 0;
+             background: white;
+             transition: width 0.3s;
+         }
+
+         .nav-links a:hover::after {
+             width: 100%;
+         }
+
+         .user-name {
+             margin-right: 1rem;
+             font-weight: 600;
+         }
+
+         .logout-btn {
+             color: white;
+             text-decoration: none;
+             font-weight: bold;
+             padding: 6px 12px;
+             border: 1px solid white;
+             border-radius: 20px;
+             transition: 0.3s;
+         }
+
+         .logout-btn:hover {
+             background: white;
+             color: #6a11cb;
+         }
+
+         /* --- CONTAINER --- */
+         .table-container {
+             margin: 2rem auto;
+             padding: 2rem;
+             background: white;
+             border-radius: 20px;
+             max-width: 95%;
+             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+             animation: fadeIn 0.8s ease;
+         }
+
+         .table-title {
+             font-size: 1.6rem;
+             font-weight: 700;
+             margin-bottom: 1.5rem;
+             text-align: center;
+             color: #6a11cb;
+         }
+
+         /* --- TABLE --- */
+         .custom-table {
+             width: 100%;
+             border-collapse: collapse;
+         }
+
+         .custom-table thead {
+             background: linear-gradient(90deg, #6a11cb, #ff6ec4);
+             color: white;
+         }
+
+         .custom-table th,
+         .custom-table td {
+             padding: 14px 16px;
+             text-align: left;
+         }
+
+         .custom-table tbody tr {
+             border-bottom: 1px solid #eee;
+             transition: background 0.3s, transform 0.2s;
+         }
+
+         .custom-table tbody tr:hover {
+             background: #f8f0ff;
+             transform: scale(1.01);
+         }
+
+         /* --- BUTTONS --- */
+         .btn-action {
+             display: inline-block;
+             padding: 6px 12px;
+             border-radius: 8px;
+             font-size: 0.85rem;
+             font-weight: 600;
+             text-decoration: none;
+             transition: 0.3s;
+             margin: 2px;
+         }
+
+         .btn-crimson {
+             background: linear-gradient(90deg, #ff6ec4, #6a11cb);
+             color: white;
+         }
+
+         .btn-crimson:hover {
+             opacity: 0.85;
+             transform: translateY(-2px);
+         }
+
+         /* --- Animation --- */
+         @keyframes fadeIn {
+             from {opacity: 0; transform: translateY(10px);}
+             to {opacity: 1; transform: translateY(0);}
+         }
+     </style>
+
 </head>
 <body>
 
-<div th:replace="~{fragments/header :: topbar}"></div>
-<div th:replace="~{fragments/sidebar :: sidebar}"></div>
-
-<div class="h-50 w-100"  ></div>
-<div class="report-buttons" style="margin-top: 20px;">
-    <a th:href="@{/report/pdf}"
-       class="btn btn-primary"
-       target="_blank">
-        Télécharger PDF
-    </a>
-
-    <a th:href="@{/report/excel}"
-       class="btn btn-success"
-       target="_blank">
-        Télécharger Excel
-    </a>
-</div>
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 mb-0">Dashboard Administrateur</h1>
-        <a href="/" class="btn btn-outline-secondary">Accueil</a>
+<!-- TOPBAR LISTE UTILISATEURS -->
+<div class="topbar" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <!-- Logo -->
+    <div class="topbar-left">
+        <a href="/"><img src="vendors/images/deskapp-logo-white.svg" alt="logo" class="logo"/></a>
     </div>
 
+    <!-- Navigation centrale -->
+    <div class="topbar-center">
+        <ul class="nav-links">
+            <!-- ADMIN -->
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/immobilier/immeuble/admin/list}"><i class="bi bi-house"></i> Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/immobilier/utilisateur/list}"><i class="bi bi-people"></i> Utilisateurs</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/contrats/admin/list}"><i class="bi bi-file-text"></i> Contrats</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/paiements/contrat}"><i class="bi bi-currency-dollar"></i> Paiements</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/dashboard}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            </li>
+
+            <!-- LOCATAIRE -->
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/immobilier/immeuble/locataire/list}"><i class="bi bi-building"></i> Mes Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/demandes/mes-demandes}"><i class="bi bi-card-checklist"></i> Mes Réservations</a>
+            </li>
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/contrats/locataire/list}"><i class="bi bi-file-text"></i> Mes Contrats</a>
+            </li>
+
+            <!-- PROPRIETAIRE -->
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/immobilier/immeuble/proprietaire/list}"><i class="bi bi-building"></i> Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/immobilier/immeuble/add}"><i class="bi bi-plus-square"></i> Ajouter Immeuble</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/contrats/proprietaire/list}"><i class="bi bi-file-text"></i> Contrats</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/contrats/proprietaire/add}"><i class="bi bi-plus-square"></i> Ajouter Contrat</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Bouton Déconnexion -->
+    <div class="topbar-right">
+        <span sec:authentication="name" class="user-name"></span>
+        <a th:href="@{/logout}" class="logout-btn">Déconnexion</a>
+    </div>
+</div>
+<div class="container py-4">
+
+
     <!-- KPIs -->
-    <div class="row g-3">
+    <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
-            <div class="card kpi-card p-3">
+            <div class="card kpi-card">
                 <div class="kpi-label">Utilisateurs</div>
                 <div class="kpi-value" th:text="${vm.totalUsers}">0</div>
                 <div class="small text-muted">
@@ -55,14 +242,14 @@
             </div>
         </div>
         <div class="col-6 col-md-3">
-            <div class="card kpi-card p-3">
+            <div class="card kpi-card">
                 <div class="kpi-label">Immeubles</div>
                 <div class="kpi-value" th:text="${vm.totalBuildings}">0</div>
                 <div class="small text-muted">Unités: <span th:text="${vm.totalUnits}">0</span></div>
             </div>
         </div>
         <div class="col-6 col-md-3">
-            <div class="card kpi-card p-3">
+            <div class="card kpi-card">
                 <div class="kpi-label">Occupation</div>
                 <div class="kpi-value">
                     <span th:text="${vm.unitsOccupied}">0</span>/<span th:text="${vm.totalUnits}">0</span>
@@ -71,7 +258,7 @@
             </div>
         </div>
         <div class="col-6 col-md-3">
-            <div class="card kpi-card p-3">
+            <div class="card kpi-card">
                 <div class="kpi-label">Revenus</div>
                 <div class="kpi-value" th:text="${#numbers.formatCurrency(vm.monthlyRevenue)}">0</div>
                 <div class="small text-muted">YTD: <span th:text="${#numbers.formatCurrency(vm.ytdRevenue)}">0</span></div>
@@ -82,15 +269,13 @@
     <!-- Graphs -->
     <div class="row g-3 mt-2">
         <div class="col-12 col-lg-6">
-            <div class="card kpi-card p-3">
-                <div class="d-flex justify-content-between">
-                    <h2 class="h6 mb-3">Revenus — 12 derniers mois</h2>
-                </div>
+            <div class="card kpi-card">
+                <h2 class="h6 mb-3">Revenus — 12 derniers mois</h2>
                 <canvas id="revenueChart" height="220"></canvas>
             </div>
         </div>
         <div class="col-12 col-lg-6">
-            <div class="card kpi-card p-3">
+            <div class="card kpi-card">
                 <h2 class="h6 mb-3">Paiements — Payés vs Impayés</h2>
                 <canvas id="paidDonut" height="220"></canvas>
                 <div class="small text-muted mt-2">
@@ -102,97 +287,74 @@
 
     <div class="row g-3 mt-2">
         <div class="col-12">
-            <div class="card kpi-card p-3">
+            <div class="card kpi-card">
                 <h2 class="h6 mb-3">Occupation par immeuble</h2>
                 <canvas id="occupancyByBuilding" height="260"></canvas>
             </div>
         </div>
     </div>
+
+    <div class="report-buttons mt-4 text-center">
+        <a th:href="@{/report/pdf}" class="btn btn-crimson" target="_blank">Télécharger PDF</a>
+        <a th:href="@{/report/excel}" class="btn btn-success" target="_blank">Télécharger Excel</a>
+    </div>
 </div>
 
-<!-- =============== Données Thymeleaf (→ JS natif) =============== -->
+<!-- JS -->
 <script th:inline="javascript">
     /*<![CDATA[*/
-    // List<YearMonth> ou List<String> (ex: "2025-08")
     const last12Raw        = /*[[${vm.last12Months}]]*/ [];
     const revenueData      = /*[[${vm.revenueByMonth}]]*/ [];
     const paidCount        = /*[[${vm.paidCount}]]*/ 0;
     const unpaidCount      = /*[[${vm.unpaidCount}]]*/ 0;
-    // Map<String, long[]> -> { "Immeuble A":[3,7], "Immeuble B":[2,4], ... }
     const occupancyByBuild = /*[[${vm.occupancyByBuilding}]]*/ {};
     /*]]>*/
 </script>
 
-<!-- =============== Charge Chart.js (une seule fois) =============== -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-
-<!-- =============== Graphiques =============== -->
 <script>
-    // Attendre que tout soit chargé (y compris Chart.js)
     window.addEventListener('load', () => {
-        if (typeof Chart === 'undefined') {
-            console.error('Chart.js non chargé. Vérifie le CDN ou les bloqueurs.');
-            return;
-        }
-
-        // Labels: accepte YearMonth objet OU string
         const last12Labels = (Array.isArray(last12Raw) ? last12Raw : []).map(m => {
             if (m && typeof m === 'object' && 'year' in m && 'monthValue' in m) {
                 return `${m.year}-${String(m.monthValue).padStart(2,'0')}`;
             }
-            return String(m); // déjà "YYYY-MM"
+            return String(m);
         });
 
-        // Occupation map -> arrays
         const occLabels = Object.keys(occupancyByBuild || {});
         const availableData = occLabels.map(k => (occupancyByBuild[k] || [0,0])[0]);
         const occupiedData  = occLabels.map(k => (occupancyByBuild[k] || [0,0])[1]);
-
         const moneyFmt = v => new Intl.NumberFormat(undefined, { style: 'currency', currency: 'XOF' }).format(v);
 
-        // Revenus 12 mois
         new Chart(document.getElementById('revenueChart'), {
             type: 'line',
-            data: { labels: last12Labels, datasets: [{ label: 'Revenus', data: revenueData, tension: .3, fill: false }] },
+            data: { labels: last12Labels, datasets: [{ label: 'Revenus', data: revenueData, tension: .3, fill: false, borderColor:'crimson', backgroundColor:'crimson' }] },
             options: { plugins: { tooltip: { callbacks: { label: (ctx)=> moneyFmt(ctx.parsed.y) } } }, scales: { y: { beginAtZero: true } } }
         });
 
-        // Donut payés / impayés
         new Chart(document.getElementById('paidDonut'), {
             type: 'doughnut',
-            data: { labels: ['Payés', 'Impayés'], datasets: [{ data: [paidCount, unpaidCount] }] },
+            data: { labels: ['Payés', 'Impayés'], datasets: [{ data: [paidCount, unpaidCount], backgroundColor:['crimson','#e0e0e0'] }] },
             options: { cutout: '60%' }
         });
 
-        // Stack bar occupation par immeuble
         new Chart(document.getElementById('occupancyByBuilding'), {
             type: 'bar',
-            data: {
-                labels: occLabels,
-                datasets: [
-                    { label: 'Disponibles', data: availableData, stack: 'stack1' },
-                    { label: 'Occupés',    data: occupiedData,  stack: 'stack1' }
-                ]
-            },
+            data: { labels: occLabels, datasets: [
+                    { label: 'Disponibles', data: availableData, stack: 'stack1', backgroundColor:'#f7c5c5' },
+                    { label: 'Occupés', data: occupiedData, stack: 'stack1', backgroundColor:'crimson' }
+                ]},
             options: { responsive: true, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } }
         });
     });
 </script>
 
-<!-- Autres scripts (ApexCharts, DataTables, etc.) -->
-<script th:src="@{/src/plugins/apexcharts/apexcharts.min.js}"></script>
-<script th:src="@{/vendors/scripts/apexcharts-setting.js}"></script>
-<script th:src="@{/vendors/scripts/dashboard3.js}"></script>
 <script th:src="@{/vendors/scripts/core.js}"></script>
 <script th:src="@{/vendors/scripts/script.min.js}"></script>
 <script th:src="@{/vendors/scripts/process.js}"></script>
 <script th:src="@{/vendors/scripts/layout-settings.js}"></script>
 <script th:src="@{/src/plugins/jquery-steps/jquery.steps.js}"></script>
-<script th:src="@{/vendors/scripts/steps-setting.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/jquery.dataTables.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/dataTables.bootstrap4.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/dataTables.responsive.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/vendors/scripts/steps.js}"></script>
 
 </body>
 </html>

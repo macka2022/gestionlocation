@@ -1,9 +1,15 @@
 package com.example.springbootexamgestionlocationimmeuble.Controller;
 
+import com.example.springbootexamgestionlocationimmeuble.DAO.DemandLocationService;
 import com.example.springbootexamgestionlocationimmeuble.DAO.ImeubleService;
 import com.example.springbootexamgestionlocationimmeuble.DAO.UniteLocationService;
+import com.example.springbootexamgestionlocationimmeuble.Entity.DemandLocation;
 import com.example.springbootexamgestionlocationimmeuble.Entity.Immeuble;
 import com.example.springbootexamgestionlocationimmeuble.Entity.UniteLocation;
+import com.example.springbootexamgestionlocationimmeuble.Entity.Utilisateur;
+import com.example.springbootexamgestionlocationimmeuble.security.CustomUserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +22,12 @@ import java.util.List;
 public class UnitedLocationController {
     private final UniteLocationService uniteLocationService;
     private final ImeubleService imeubleService;
+    private final DemandLocationService demandLocationService;
 
-    public UnitedLocationController(UniteLocationService uniteLocationService, ImeubleService imeubleService) {
+    public UnitedLocationController(UniteLocationService uniteLocationService, ImeubleService imeubleService, DemandLocationService demandLocationService) {
         this.uniteLocationService = uniteLocationService;
         this.imeubleService = imeubleService;
+        this.demandLocationService = demandLocationService;
     }
 
     @GetMapping("/list")
@@ -89,10 +97,18 @@ public class UnitedLocationController {
             return "redirect:/immobilier/unitelocation/list";
         }
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+        Utilisateur utilisateur = userDetails.getUtilisateur();
         // Réserver l’unité
         unite.setStatut(UniteLocation.Statut.OCCUPE);
         uniteLocationService.saveUnite(unite);
-
+        DemandLocation demandLocation = new DemandLocation();
+        demandLocation.setLocataire(utilisateur);
+        demandLocation.setUnite(unite);
+        demandLocation.setStatut(DemandLocation.Statut.EN_ATTENTE);
+        demandLocation.setDateDemande(java.time.LocalDate.now());
+        demandLocationService.saveDemande(demandLocation);
         redirectAttributes.addFlashAttribute("success", "Unité réservée avec succès.");
         return  "redirect:/immobilier/immeuble/detail/" + unite.getImmeuble().getId();
     }

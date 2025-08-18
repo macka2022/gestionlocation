@@ -20,4 +20,5 @@ public interface ContratService {
 
     public void deleteContrat(int id) ;
     List<Contrat> findByLocataire(Utilisateur locataire);
+
 }

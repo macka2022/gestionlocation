@@ -115,4 +115,30 @@ private final UniteLocationService uniteLocationService;
         return "/proprietaire/detailImmeuble";
      }
 
+    @GetMapping("/locataire/detail/{id}")
+    public String detailListeImmeubleL(@PathVariable int id, Model model) {
+        Immeuble immeuble = immeubleService.getImmmeubleById(id);
+
+        // Récupération des unités liées à cet immeuble
+        List<UniteLocation> unites = uniteLocationService.getUnitesByImmeuble(immeuble);
+
+        // Ajouter les objets au modèle pour Thymeleaf
+        model.addAttribute("immeuble", immeuble);
+        model.addAttribute("unites", unites);
+        return "/locataire/detailImmeuble";
+    }
+
+    @GetMapping("/admin/detail/{id}")
+    public String detailListeImmeubleA(@PathVariable int id, Model model) {
+        Immeuble immeuble = immeubleService.getImmmeubleById(id);
+
+        // Récupération des unités liées à cet immeuble
+        List<UniteLocation> unites = uniteLocationService.getUnitesByImmeuble(immeuble);
+
+        // Ajouter les objets au modèle pour Thymeleaf
+        model.addAttribute("immeuble", immeuble);
+        model.addAttribute("unites", unites);
+        return "/admin/detailImmeuble";
+    }
+
 }

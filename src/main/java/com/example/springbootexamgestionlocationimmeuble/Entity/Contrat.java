@@ -15,7 +15,7 @@ public class Contrat {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int id;
-
+        private LocalDate date;
         private LocalDate dateDebut;
 
         private LocalDate dateFin;

@@ -1,208 +1,160 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<!-- Basic Page Info -->
-		<meta charset="utf-8" />
-		<title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
+<head>
+	<meta charset="utf-8" />
+	<title>Login Immobilier - Crimson</title>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	<style>
+		body.login-page {
+			background: royalblue;
+			font-family: 'Inter', sans-serif;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+		}
 
-		<!-- Site favicon -->
-		<link
-			rel="apple-touch-icon"
-			sizes="180x180"
-			th:href="@{/vendors/images/apple-touch-icon.png}"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="32x32"
-			th:href="@{/vendors/images/favicon-32x32.png}"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="16x16"
-			th:href="@{/vendors/images/favicon-16x16.png}"
-		/>
+		.login-box {
+			max-width: 400px;
+			width: 100%;
+			padding: 2.5rem 2rem;
+			background: white;
+			border-radius: 1rem;
+			box-shadow: 0 10px 25px rgba(178, 34, 34, 0.2);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
 
-		<!-- Mobile Specific Metas -->
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1, maximum-scale=1"
-		/>
+		.login-box:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 15px 35px rgba(178, 34, 34, 0.25);
+		}
 
-		<!-- Google Font -->
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-			rel="stylesheet"
-		/>
-		<!-- CSS -->
-		<link rel="stylesheet" type="text/css" th:href="@{/vendors/styles/core.css}" />
-		<link
-			rel="stylesheet"
-			type="text/css"
-			th:href="@{/vendors/styles/icon-font.min.css}"
-		/>
-		<link rel="stylesheet" type="text/css" th:href="@{/vendors/styles/style.css}" />
+		.login-title h2 {
+			color: crimson;
+			text-align: center;
+			margin-bottom: 2rem;
+			font-weight: 700;
+			font-size: 2rem;
+		}
 
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script
-			async
-			src="https://www.googletagmanager.com/gtag/js?id=G-GBZ3SGGX85"
-		></script>
-		<script
-			async
-			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973766580778258"
-			crossorigin="anonymous"
-		></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				dataLayer.push(arguments);
+		.input-group {
+			margin-bottom: 1.5rem;
+			position: relative;
+		}
+
+		.input-group input {
+			width: 100%;
+			padding: 0.75rem 2.5rem 0.75rem 1rem;
+			border-radius: 0.6rem;
+			border: 1px solid #f5c2c7;
+			font-size: 1rem;
+			transition: all 0.3s ease;
+		}
+
+		.input-group input:focus {
+			outline: none;
+			border-color:blue;
+			box-shadow: 0 0 0 0.2rem rgba(178, 34, 34, 0.2);
+		}
+
+		.input-group span {
+			position: absolute;
+			right: 1rem;
+			top: 50%;
+			transform: translateY(-50%);
+			color: blue;
+			font-size: 1.2rem;
+		}
+
+		.custom-checkbox {
+			display: flex;
+			align-items: center;
+		}
+
+		.custom-checkbox input[type="checkbox"] {
+			margin-right: 0.5rem;
+		}
+
+		.btn-primary {
+			background-color: blue;
+			border: none;
+			color: white;
+			font-weight: 600;
+			width: 100%;
+			padding: 0.75rem;
+			border-radius: 0.6rem;
+			font-size: 1rem;
+			transition: all 0.3s ease;
+		}
+
+		.btn-primary:hover {
+			background-color: #b22222;
+			transform: translateY(-2px);
+		}
+
+		.btn-outline-primary {
+			width: 100%;
+			padding: 0.75rem;
+			border-radius: 0.6rem;
+			border: 2px solid crimson;
+			color: crimson;
+			font-weight: 600;
+			font-size: 1rem;
+			text-decoration: none;
+			display: inline-block;
+			text-align: center;
+			transition: all 0.3s ease;
+		}
+
+		.btn-outline-primary:hover {
+			background-color: crimson;
+			color: white;
+			transform: translateY(-2px);
+		}
+
+		.divider {
+			text-align: center;
+			margin: 1.5rem 0;
+			font-weight: 600;
+			color: #b22222;
+		}
+
+		@media (max-width: 480px) {
+			.login-box {
+				padding: 2rem 1.5rem;
 			}
-			gtag("js", new Date());
+		}
+	</style>
+</head>
+<body class="login-page">
 
-			gtag("config", "G-GBZ3SGGX85");
-		</script>
-		<!-- Google Tag Manager -->
-		<script>
-			(function (w, d, s, l, i) {
-				w[l] = w[l] || [];
-				w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-				var f = d.getElementsByTagName(s)[0],
-					j = d.createElement(s),
-					dl = l != "dataLayer" ? "&l=" + l : "";
-				j.async = true;
-				j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-				f.parentNode.insertBefore(j, f);
-			})(window, document, "script", "dataLayer", "GTM-NXZMQSS");
-		</script>
-		<!-- End Google Tag Manager -->
-	</head>
-	<body class="login-page">
-		<div class="login-header box-shadow">
-			<div
-				class="container-fluid d-flex justify-content-between align-items-center"
-			>
-				<div class="brand-logo">
-					<a href="login.html">
-						<img src="../../../../../deskapp/vendors/images/deskapp-logo.svg" alt="" />
-					</a>
-				</div>
-				<div class="login-menu">
-					<ul>
-						<li><a href="../../../../../deskapp/register.html">Register</a></li>
-					</ul>
-				</div>
-			</div>
+<div class="login-box">
+	<div class="login-title">
+		<h2>Login Immobilier</h2>
+	</div>
+	<form th:action="@{/login}" method="post">
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="Email" name="email" />
+			<span class="icon-copy dw dw-user1"></span>
 		</div>
-		<div
-			class="login-wrap d-flex align-items-center flex-wrap justify-content-center"
-		>
-			<div class="container">
-				<div class="row align-items-center">
-					<div class="col-md-6 col-lg-7">
-						<img src="../../../../../deskapp/vendors/images/login-page-img.png" alt="" />
-					</div>
-					<div class="col-md-6 col-lg-5">
-						<div class="login-box bg-white box-shadow border-radius-10">
-							<div class="login-title">
-								<h2 class="text-center text-primary">Login Immobilier</h2>
-							</div>
-							<form th:action="@{/login}" method="post">
-
-								<div class="input-group custom">
-									<input
-										type="text"
-										class="form-control form-control-lg"
-										placeholder="Email"
-										name="email"
-									/>
-									<div class="input-group-append custom">
-										<span class="input-group-text"
-											><i class="icon-copy dw dw-user1"></i
-										></span>
-									</div>
-								</div>
-								<div class="input-group custom">
-									<input
-										type="password"
-										class="form-control form-control-lg"
-										placeholder="**********"
-										name="password"
-									/>
-									<div class="input-group-append custom">
-										<span class="input-group-text"
-											><i class="dw dw-padlock1"></i
-										></span>
-									</div>
-								</div>
-								<div class="row pb-30">
-									<div class="col-6">
-										<div class="custom-control custom-checkbox">
-											<input
-												type="checkbox"
-												class="custom-control-input"
-												id="customCheck1"
-											/>
-											<label class="custom-control-label" for="customCheck1"
-												>Remember</label
-											>
-										</div>
-									</div>
-
-								</div>-->
-								<div class="row">
-									<div class="col-sm-12">
-										<div class="input-group mb-0">
-											<!--
-											use code for form submit
-											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-										-->
-											<button
-												class="btn btn-primary btn-lg btn-block"
-
-												>Je me connecte</button
-											>
-										</div>
-										<div
-											class="font-16 weight-600 pt-10 pb-10 text-center"
-											data-color="#707373"
-										>
-											OR
-										</div>
-										<div class="input-group mb-0">
-											<a
-												class="btn btn-outline-primary btn-lg btn-block"
-												th:href="@{/register}"
-												>Je cree un compte</a
-											>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
+		<div class="input-group">
+			<input type="password" class="form-control" placeholder="Mot de passe" name="password" />
+			<span class="dw dw-padlock1"></span>
 		</div>
-		<!-- welcome modal start -->
 
+		<div class="custom-checkbox mb-3">
+			<input type="checkbox" id="rememberMe" />
+			<label for="rememberMe">Se souvenir de moi</label>
+		</div>
 
-		<!-- welcome modal end -->
-		<!-- js -->
-		<script th:src="@{/vendors/scripts/core.js}"></script>
-		<script th:src="@{/vendors/scripts/script.min.js}"></script>
-		<script th:src="@{/vendors/scripts/process.js}"></script>
-		<script th:src="@{/vendors/scripts/layout-settings.js}"></script>
-		<!-- Google Tag Manager (noscript) -->
-		<noscript
-			><iframe
-				src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-				height="0"
-				width="0"
-				style="display: none; visibility: hidden"
-			></iframe
-		></noscript>
-		<!-- End Google Tag Manager (noscript) -->
-	</body>
+		<button class="btn-primary mb-3">Se connecter</button>
+
+		<div class="divider">OU</div>
+
+		<a class="btn-outline-primary" th:href="@{/register}">Créer un compte</a>
+	</form>
+</div>
+
+</body>
 </html>

@@ -1,65 +1,161 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ang" th:fragment="content">
-
 <head>
-    <title>listeruser</title>
-    <!-- Basic Page Info -->
-    <meta charset="utf-8"/>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/vendors/images/apple-touch-icon.png}"/>
-    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/vendors/images/favicon-32x32.png}"/>
-    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/vendors/images/favicon-16x16.png}"/>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-          rel="stylesheet"/>
-
-    <!-- CSS -->
+    <meta charset="UTF-8"/>
+    <title>Inscription - Crimson Gestion Location</title>
     <link rel="stylesheet" th:href="@{/vendors/styles/core.css}"/>
     <link rel="stylesheet" th:href="@{/vendors/styles/icon-font.min.css}"/>
     <link rel="stylesheet" th:href="@{/src/plugins/jquery-steps/jquery.steps.css}"/>
     <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/dataTables.bootstrap4.min.css}"/>
     <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/responsive.bootstrap4.min.css}"/>
     <link rel="stylesheet" th:href="@{/vendors/styles/style.css}"/>
+    <style>
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: crimson;
+            padding: 0.7rem 1.5rem;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
 
+        .topbar .logo {
+            height: 40px;
+        }
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-GBZ3SGGX85"
-    ></script>
-    <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973766580778258"
-            crossorigin="anonymous"
-    ></script>
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ffd6d6;
+        }
+
+        .user-name {
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            color: white;
+            text-decoration: none;
+        }
+        .logout-btn:hover {
+            color: #ffd6d6;
+        }
+
+        body {
+            background-color: #fff0f2;
+            font-family: 'Inter', sans-serif;
+        }
+        .register-box {
+            border-radius: 1rem;
+            box-shadow: 0 6px 20px rgba(178,34,34,.3);
+        }
+        .wizard-content h5 {
+            color: crimson;
+            font-weight: 600;
+        }
+        .btn-crimson {
+            background-color: crimson;
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        .btn-crimson:hover {
+            background-color: #b22222;
+        }
+        .custom-control-label {
+            color: #b22222;
+        }
+        .login-header, .welcome-modal {
+            background-color: crimson;
+            color: white;
+        }
+        label {
+            font-weight: 500;
+            color: #b22222;
+        }
+        .form-control:focus {
+            border-color: crimson;
+            box-shadow: 0 0 0 0.2rem rgba(178,34,34,.25);
+        }
+    </style>
+</head>
 <body>
 
-<div th:replace="~{fragments/header :: topbar}"></div>
-<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div  class="topbar" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<div class="login-header box-shadow">
-    <div
-            class="container-fluid d-flex justify-content-between align-items-center"
-    >
-        <div class="brand-logo">
-            <a href="login.html">
-                <img src="vendors/images/deskapp-logo.svg" alt=""/>
-            </a>
-        </div>
-        <div class="login-menu">
-            <ul>
-                <li><a href="login.html"></a></li>
-            </ul>
-        </div>
+    <div class="topbar-left">
+        <a href="/">
+            <img src="vendors/images/deskapp-logo-white.svg" alt="logo" class="logo"/>
+        </a>
+    </div>
+
+    <div class="topbar-center">
+        <ul class="nav-links">
+            <!-- ADMIN -->
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/immobilier/immeuble/admin/list}"><i class="bi bi-house"></i> Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/immobilier/utilisateur/list}"><i class="bi bi-people"></i> Utilisateurs</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/contrats/admin/list}"><i class="bi bi-file-text"></i> Contrats</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/paiements/contrat}"><i class="bi bi-currency-dollar"></i> Paiements</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/dashboard}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            </li>
+
+            <!-- LOCATAIRE -->
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/immobilier/immeuble/locataire/list}"><i class="bi bi-building"></i> Mes Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/demandes/mes-demandes}"><i class="bi bi-card-checklist"></i> Mes Réservations</a>
+            </li>
+            <li sec:authorize="hasRole('LOCATAIRE')">
+                <a th:href="@{/contrats/locataire/list}"><i class="bi bi-file-text"></i> Mes Contrats</a>
+            </li>
+
+            <!-- PROPRIETAIRE -->
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/immobilier/immeuble/proprietaire/list}"><i class="bi bi-building"></i> Immeubles</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/immobilier/immeuble/add}"><i class="bi bi-plus-square"></i> Ajouter Immeuble</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/contrats/proprietaire/list}"><i class="bi bi-file-text"></i> Contrats</a>
+            </li>
+            <li sec:authorize="hasRole('PROPRIETAIRE')">
+                <a th:href="@{/contrats/proprietaire/add}"><i class="bi bi-plus-square"></i> Ajouter Contrat</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="topbar-right">
+        <span sec:authentication="name" class="user-name"></span>
+        <a th:href="@{/logout}" class="logout-btn"><i class="bi bi-box-arrow-right"></i></a>
     </div>
 </div>
-<div
-        class="register-page-wrap d-flex align-items-center flex-wrap justify-content-center"
->
+
+<div class="register-page-wrap d-flex align-items-center flex-wrap justify-content-center">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6 col-lg-7">
@@ -68,16 +164,17 @@
             <div class="col-md-6 col-lg-5">
                 <div class="register-box bg-white box-shadow border-radius-10">
                     <div class="wizard-content">
-                        <form class="tab-wizard2 wizard-circle wizard" th:action="@{/immobilier/utilisateur/addnew}" th:object="${utilisateur}" method="post">
+                        <form class="tab-wizard2 wizard-circle wizard"
+                              th:action="@{/immobilier/utilisateur/addnew}"
+                              th:object="${utilisateur}"
+                              method="post">
                             <h5>Identifiants de compte de base</h5>
                             <section>
                                 <div class="form-wrap max-width-600 mx-auto">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label"
-                                        >Address Email*</label
-                                        >
+                                        <label class="col-sm-4 col-form-label">Email*</label>
                                         <div class="col-sm-8">
-                                            <input type="email" th:field="*{email}"  class="form-control"/>
+                                            <input type="email" th:field="*{email}" class="form-control"/>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -87,132 +184,61 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">Prenom*</label>
+                                        <label class="col-sm-4 col-form-label">Prénom*</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" th:field="*{prenom}" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label"
-                                        >Telephone*</label
-                                        >
+                                        <label class="col-sm-4 col-form-label">Téléphone*</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" th:field="*{telephone}" />
                                         </div>
                                     </div>
                                 </div>
                             </section>
-                            <!-- Step 2 -->
-                            <h5>Securité De L'application</h5>
+
+                            <h5>Sécurité de l'application</h5>
                             <section>
                                 <div class="form-wrap max-width-600 mx-auto">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label"
-                                        >Password*</label
-                                        >
+                                        <label class="col-sm-4 col-form-label">Password*</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" th:field="*{password}" />
+                                            <input type="password" class="form-control" th:field="*{password}" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">Confirmation password*</label>
+                                        <label class="col-sm-4 col-form-label">Confirmation*</label>
                                         <div class="col-sm-8">
                                             <input type="password" class="form-control"/>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">Role *</label>
+                                        <label class="col-sm-4 col-form-label">Role*</label>
                                         <div class="col-sm-8">
-                                            <select  class="form-control" th:field="*{role}" >
-                                                <option value="ADMIN"> ADMIN</option>
-                                                <option value="LOCATAIRE"> LOCATAIRE</option>
-                                                <option value="PROPRIETAIRE">PROPRIETAIRE </option>
+                                            <select class="form-control" th:field="*{role}">
+                                                <option value="ADMIN">ADMIN</option>
+                                                <option value="LOCATAIRE">LOCATAIRE</option>
+                                                <option value="PROPRIETAIRE">PROPRIETAIRE</option>
                                             </select>
                                         </div>
                                     </div>
-
-
-
-
                                 </div>
                             </section>
 
-                            <!-- Step 4 -->
-                            <h5>Verification des informations</h5>
+                            <h5>Vérification des informations</h5>
                             <section>
                                 <div class="form-wrap max-width-600 mx-auto">
-                                    <ul class="register-info">
-                                        <li>
-                                            <div class="row">
-                                                <div class="col-sm-4 weight-600">Email Address</div>
-                                                <div class="col-sm-8">example@abc.com</div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="row">
-                                                <div class="col-sm-4 weight-600">Username</div>
-                                                <div class="col-sm-8">Example</div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="row">
-                                                <div class="col-sm-4 weight-600">Password</div>
-                                                <div class="col-sm-8">.....000</div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="row">
-                                                <div class="col-sm-4 weight-600">Full Name</div>
-                                                <div class="col-sm-8">john smith</div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="row">
-                                                <div class="col-sm-4 weight-600">Location</div>
-                                                <div class="col-sm-8">123 Example</div>
-                                            </div>
-                                        </li>
-                                    </ul>
                                     <div class="custom-control custom-checkbox mt-4">
-                                        <input
-                                                type="checkbox"
-                                                class="custom-control-input"
-                                                id="customCheck1"
-                                        />
-                                        <label class="custom-control-label" for="customCheck1"
-                                        >Confirmation pour ajouter l'utilisateur</label
-                                        >
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1"/>
+                                        <label class="custom-control-label" for="customCheck1">
+                                            Confirmation pour ajouter l'utilisateur
+                                        </label>
                                     </div>
                                 </div>
                             </section>
-                            <div
-                                    class="modal fade"
-                                    id="success-modal"
-                                    tabindex="-1"
-                                    role="dialog"
-                                    aria-labelledby="exampleModalCenterTitle"
-                                    aria-hidden="true"
-                            >
-                                <div
-                                        class="modal-dialog modal-dialog-centered max-width-400"
-                                        role="document"
-                                >
-                                    <div class="modal-content">
-                                        <div class="modal-body text-center font-18">
-                                            <h3 class="mb-20">Form Submitted!</h3>
-                                            <div class="mb-30 text-center">
-                                                <img src="vendors/images/success.png"/>
-                                            </div>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                            eiusmod
-                                        </div>
-                                        <div class="modal-footer justify-content-center">
-                                            <button  class="btn btn-primary">Done</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
+                            <button type="submit" class="btn btn-crimson mt-3">Enregistrer</button>
                         </form>
                     </div>
                 </div>
@@ -220,38 +246,6 @@
         </div>
     </div>
 </div>
-<!-- success Popup html Start -->
-<button
-        type="button"
-        id="success-modal-btn"
-        hidden
-        data-toggle="modal"
-        data-target="#success-modal"
-        data-backdrop="static"
->
-    Launch modal
-</button>
-
-<!-- success Popup html End -->
-<!-- welcome modal start -->
-<div class="welcome-modal">
-    <button class="welcome-modal-close">
-        <i class="bi bi-x-lg"></i>
-    </button>
-
-
-
-        <script
-                async
-                defer="defer"
-                src="https://buttons.github.io/buttons.js"
-        ></script>
-
-</div>
-<button class="welcome-modal-btn">
-    <i class="fa fa-download"></i> Download
-</button>
-
 
 <script th:src="@{/vendors/scripts/core.js}"></script>
 <script th:src="@{/vendors/scripts/script.min.js}"></script>
@@ -260,26 +254,4 @@
 <script th:src="@{/src/plugins/jquery-steps/jquery.steps.js}"></script>
 <script th:src="@{/vendors/scripts/steps-setting.js}"></script>
 
-<!-- DataTables + ApexCharts -->
-<script th:src="@{/src/plugins/apexcharts/apexcharts.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/jquery.dataTables.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/dataTables.bootstrap4.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/dataTables.responsive.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/responsive.bootstrap4.min.js}"></script>
-<script th:src="@{/vendors/scripts/dashboard3.js}"></script>
-
-
-<!-- Google Tag Manager (noscript) -->
-<noscript
->
-    <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-            height="0"
-            width="0"
-            style="display: none; visibility: hidden"
-    ></iframe
-    >
-</noscript>
-
 </body>
-</html>

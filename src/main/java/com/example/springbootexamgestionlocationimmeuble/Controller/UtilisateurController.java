@@ -29,11 +29,6 @@ private final UtilisateurService utilisateurService;
         // sans 'main'
     }
 
-    @PostMapping("/addnew")
-    public String addNewUtilisateur(@ModelAttribute Utilisateur utilisateur) {
-        utilisateurService.saveUtilisateur(utilisateur);
-        return "redirect:/immobilier/utilisateur/list";
-    }
 
 
 }

@@ -84,7 +84,9 @@ public class ContratController {
     public String enregistrerContrat(@ModelAttribute Contrat contrat, RedirectAttributes redirect) {
         contratService.saveContrat(contrat);
         redirect.addFlashAttribute("success", "Contrat ajouté avec succès !");
-        return "redirect:/contrats/proprietaire/list";
+        return "redirect:/contrats/admin/list";
     }
+
+
 
 }

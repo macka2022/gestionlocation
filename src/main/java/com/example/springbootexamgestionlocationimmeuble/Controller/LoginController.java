@@ -24,14 +24,14 @@ public class LoginController {
    @GetMapping("/login/connect")
     public String redirectByRole(Authentication authentication) {
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
-            return "redirect:statistique/dashboard";
+            return "redirect:admin/dashboard";
         } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("LOCATAIRE"))) {
             return "redirect:immobilier/immeubles/locataire/list";
         } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("PROPRIETAIRE"))) {
             return "redirect:immobilier/immeubles/proprietaire/list";
         } else {
 //            return "redirect:/access-denied";
-            return "redirect:/immobilier/unitelocation/list";
+            return "";
         }
     }
 }

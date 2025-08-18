@@ -1,167 +1,218 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ang">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 
 <head>
-    <title>listeruser</title>
-    <!-- Basic Page Info -->
-    <meta charset="utf-8" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/vendors/images/apple-touch-icon.png}" />
-    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/vendors/images/favicon-32x32.png}" />
-    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/vendors/images/favicon-16x16.png}" />
+    <title>Liste Contrats</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- CSS -->
-    <link rel="stylesheet" th:href="@{/vendors/styles/core.css}" />
-    <link rel="stylesheet" th:href="@{/vendors/styles/icon-font.min.css}" />
-    <link rel="stylesheet" th:href="@{/src/plugins/jquery-steps/jquery.steps.css}" />
-    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/dataTables.bootstrap4.min.css}" />
-    <link rel="stylesheet" th:href="@{/src/plugins/datatables/css/responsive.bootstrap4.min.css}" />
-    <link rel="stylesheet" th:href="@{/vendors/styles/style.css}" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            margin: 0;
+        }
 
+        /* --- TOPBAR --- */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, #6a11cb, #ff6ec4);
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-GBZ3SGGX85"
-    ></script>
-    <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973766580778258"
-            crossorigin="anonymous"
-    ></script>
-    <title></title>
+        .topbar .logo {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            height: 2px;
+            width: 0;
+            background: white;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .user-name {
+            margin-right: 1rem;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 6px 12px;
+            border: 1px solid white;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: white;
+            color: #6a11cb;
+        }
+
+        /* --- CONTAINER --- */
+        .card-box {
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            max-width: 95%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .card-box h4 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #6a11cb;
+            margin: 0;
+        }
+
+        /* --- TABLE --- */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .custom-table thead {
+            background: linear-gradient(90deg, #6a11cb, #ff6ec4);
+            color: white;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 14px 16px;
+            text-align: left;
+        }
+
+        .custom-table tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .custom-table tbody tr:hover {
+            background: #f8f0ff;
+            transform: scale(1.01);
+        }
+
+        /* --- BUTTON --- */
+        .btn-crimson {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, #ff6ec4, #6a11cb);
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-crimson:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
+
+        /* --- Animation --- */
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(10px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
 </head>
 
-
 <body>
-<div th:replace="~{fragments/header :: topbar}"></div>
-<div th:replace="~{fragments/sidebar :: sidebar}"></div>
-<div  class="main-container">
 
-    <div class="pd-ltr-20 xs-pd-20-10">
+<!-- TOPBAR -->
+<div class="topbar" xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-
-
-        <div class="pd-ltr-20 xs-pd-20-10">
-
-            <div class="page-header">
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <div class="title">
-                            <h4>DataTable</h4>
-                        </div>
-                        <nav aria-label="breadcrumb" role="navigation">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="index.html">Home</a>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page">
-                                    DataTable
-                                </li>
-                            </ol>
-                        </nav>
-                    </div>
-                    <div class="col-md-6 col-sm-12 text-right">
-                        <div class="dropdown">
-                            <a
-                                    class="btn btn-primary dropdown-toggle"
-                                    href="#"
-                                    role="button"
-                                    data-toggle="dropdown"
-                            >
-                                January 2018
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Export List</a>
-                                <a class="dropdown-item" href="#">Policies</a>
-                                <a class="dropdown-item" href="#">View Assets</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-box mb-30">
-            <div class="pd-20">
-                <h4 class="text-blue h4">Data Table Simple</h4>
-                <p class="mb-0">
-                    you can find more options
-                    <a
-                            class="text-primary"
-                            href="https://datatables.net/"
-                            target="_blank"
-                    >Click Here</a
-                    >
-                </p>
-            </div>
-            <div class="pb-20">
-                <table class="data-table table stripe hover nowrap">
-                    <thead>
-                    <tr>
-                        <th class="table-plus datatable-nosort">#</th>
-                        <th>Date Debut</th>
-                        <th>Date Fin</th>
-                        <th>Unite</th>
-                        <th>Utlisateur</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="contrat : ${contrats}">
-
-                        <td class="table-plus" th:text="${contrat.id}"></td>
-                        <td th:text="${contrat.dateDebut}"></td>
-                        <td th:text="${contrat.dateFin}"> </td>
-                        <td th:text="${contrat.uniteLocation.numero}"></td>
-                        <td th:text="${contrat.locataire.nom}"></td>
-                        <td ><a class="dropdown-item" th:href="@{/paiements/add/{contratId}(contratId=${contrat.id})}">
-                            <i class="dw dw-eye"></i>Voir</a></td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+    <div class="topbar-left">
+        <a href="/"><img src="vendors/images/deskapp-logo-white.svg" alt="logo" class="logo"/></a>
     </div>
 
+    <div class="topbar-center">
+        <ul class="nav-links">
+            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/immobilier/immeuble/admin/list}">🏢 Immeubles</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/immobilier/utilisateur/list}">👤 Utilisateurs</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/contrats/admin/list}">📑 Contrats</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/paiements/contrat}">💰 Paiements</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin/dashboard}">📊 Dashboard</a></li>
+        </ul>
+    </div>
 
+    <div class="topbar-right">
+        <span sec:authentication="name" class="user-name"></span>
+        <a th:href="@{/logout}" class="logout-btn">Déconnexion</a>
+    </div>
 </div>
 
+<!-- CARD TABLE -->
+<div class="card-box">
+    <div class="d-flex justify-content-between align-items-center">
+        <h4>📑 Tableau des Contrats</h4>
+        <a th:href="@{/contrats/proprietaire/add}" class="btn-crimson">➕ Ajouter Contrat</a>
+    </div>
 
-<script th:src="@{/vendors/scripts/core.js}"></script>
-<script th:src="@{/vendors/scripts/script.min.js}"></script>
-<script th:src="@{/vendors/scripts/process.js}"></script>
-<script th:src="@{/vendors/scripts/layout-settings.js}"></script>
-<script th:src="@{/src/plugins/jquery-steps/jquery.steps.js}"></script>
-<script th:src="@{/vendors/scripts/steps-setting.js}"></script>
+    <table class="custom-table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>📅 Date Début</th>
+            <th>📅 Date Fin</th>
+            <th>🏠 Unité</th>
+            <th>💵 Montant</th>
+            <th>👤 Locataire</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="contrat : ${contrats}">
+            <td th:text="${contrat.id}"></td>
+            <td th:text="${contrat.dateDebut}"></td>
+            <td th:text="${contrat.dateFin}"></td>
+            <td th:text="${contrat.uniteLocation.numero}"></td>
+            <td th:text="${contrat.getUniteLocation().loyer}"></td>
+            <td th:text="${contrat.locataire.nom}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
-<!-- DataTables + ApexCharts -->
-<script th:src="@{/src/plugins/apexcharts/apexcharts.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/jquery.dataTables.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/dataTables.bootstrap4.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/dataTables.responsive.min.js}"></script>
-<script th:src="@{/src/plugins/datatables/js/responsive.bootstrap4.min.js}"></script>
-<script th:src="@{/vendors/scripts/dashboard3.js}"></script>
-
-
-
-
-<!-- Google Tag Manager (noscript) -->
-<noscript
-><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-></iframe
-></noscript>
 </body>
 </html>
